@@ -20,7 +20,7 @@ theme = "hugo-theme-chunky-poster"
     name = "Home"
     url = "/"
     weight = 10
-    
+
 [taxonomies]
 category = "categories"
 tag = "tags"
