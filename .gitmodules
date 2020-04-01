@@ -1,0 +1,3 @@
+[submodule "themes/hugo-theme-blogosphere"]
+	path = themes/hugo-theme-blogosphere
+	url = ssh://git@github.com/mschoenlaub/hugo-theme-blogosphere

@@ -1,7 +1,7 @@
 baseURL = "/"
 languageCode = "en"
 defaultContentLanguage = "en"
-title = "mschoenlaub"
+title = "Manuel's Blogosphere"
 enableGitInfo = false
 # default amount of posts in each pages
 paginate = 12
@@ -9,7 +9,7 @@ enableEmoji = true
 enableRobotsTXT = true
 googleAnalytics = ""
 dateFormatToUse = "2006-01-02"
-copyright = "Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved."
+copyright = "Copyright © 2020, Manuel Schönlaub and the Hugo Authors; some rights reserved."
 enableInlineShortcodes = true
 footnoteReturnLinkContents = "^"
 theme = "hugo-theme-chunky-poster"
@@ -20,12 +20,7 @@ theme = "hugo-theme-chunky-poster"
     name = "Home"
     url = "/"
     weight = 10
-  [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
-    weight = 0
-
+    
 [taxonomies]
 category = "categories"
 tag = "tags"
@@ -34,8 +29,8 @@ author = "authors"
 
 [params]
   author = "mschoenlaub"
-  description = "Lorem ipsum dolor sit amet."
-  homepageImage = "/images/homepage-image.jpg"
+  description = "A not-so-personal space"
+  homepageImage = "/images/intro.jpg"
   share = true
   showLanguageSwitcher = false
 
