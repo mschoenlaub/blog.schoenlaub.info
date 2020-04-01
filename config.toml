@@ -1,0 +1,70 @@
+baseURL = "/"
+languageCode = "en"
+defaultContentLanguage = "en"
+title = "mschoenlaub"
+enableGitInfo = false
+# default amount of posts in each pages
+paginate = 12
+enableEmoji = true
+enableRobotsTXT = true
+googleAnalytics = ""
+dateFormatToUse = "2006-01-02"
+copyright = "Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved."
+enableInlineShortcodes = true
+footnoteReturnLinkContents = "^"
+theme = "hugo-theme-chunky-poster"
+
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 10
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 0
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+author = "authors"
+
+[params]
+  author = "mschoenlaub"
+  description = "Lorem ipsum dolor sit amet."
+  homepageImage = "/images/homepage-image.jpg"
+  share = true
+  showLanguageSwitcher = false
+
+  # Custom CSS and JS. Relative to /static/css and /static/js respectively.
+  customCSS = []
+  customJS = []
+
+  [params.social]
+    rss = true
+    email = "manuel.schoenlaub@gmail.com"
+    facebook = "https://facebook.com/mschoenlaub"
+    linkedin = "https://linkedin.com/in/mschoenlaub"
+    github = "https://github.com/mschoenlaub"
+
+  [params.prismJS]
+    enable = true
+    theme = ""
+
+  [params.commento]
+    enable = true
+    url = "https://commento.io"
+
+[markup]
+  [markup.highlight]
+    codeFences = false
+
+[services]
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true
