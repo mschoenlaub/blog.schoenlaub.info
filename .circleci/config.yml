@@ -35,8 +35,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ./public
-      - name: Deploy static pages to Github Pages
-        command: |
+      - run: |
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
             echo -e "Starting to deploy to Github Pages\n"
             git config --global user.email "builds@circleci.com"
