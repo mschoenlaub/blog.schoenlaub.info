@@ -59,6 +59,8 @@ jobs:
       - run: htmlproofer /tmp/build --allow-hash-href --check-html --empty-alt-ignore --disable-external || true
   deploy:
     executor: publisher
+    environment:
+      HUGO_PUBLISHDOMAIN: www.schoenlaub.info
     steps:
       - attach_workspace:
           at: /tmp
@@ -75,8 +77,8 @@ jobs:
             rsync -r --exclude=.git --delete /tmp/minified/ ./
             #add, commit and push files
             echo "add files to git..."
+            echo "${HUGO_PUBLISHDOMAIN}" > ./CNAME
             git add -f .
-            echo "www.schoenlaub.info" > ./CNAME
             echo "commit files to git repository..."
             if git commit -m "CircleCI build $CIRCLE_BUILD_NUM pushed to Github Pages" ; then
               echo "git push files with force..."
