@@ -11,9 +11,6 @@ commands:
       - run: git submodule sync && git submodule update --init
       - run: "hugo -v <<# parameters.minify >> --minify<</ parameters.minify >>"
 
-
-
-
 executors:
   builder:
     environment:
@@ -24,7 +21,7 @@ executors:
     working_directory: ~/hugo
   publisher:
     docker:
-      - image: alpine/git:latest
+      - image: sergeyfast/alpine-rsync
     working_directory: ~/hugo
 
 jobs:
