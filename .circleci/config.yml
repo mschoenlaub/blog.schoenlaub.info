@@ -76,6 +76,7 @@ jobs:
             #add, commit and push files
             echo "add files to git..."
             git add -f .
+            echo "www.schoenlaub.info" > ./CNAME
             echo "commit files to git repository..."
             if git commit -m "CircleCI build $CIRCLE_BUILD_NUM pushed to Github Pages" ; then
               echo "git push files with force..."
