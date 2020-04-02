@@ -1,7 +1,24 @@
 version: 2.1
 
+commands:
+  hugo:
+    description: Compiles hugo page
+    parameters:
+      minify:
+        type: boolean
+        default: false
+    steps:
+      - run: git submodule sync && git submodule update --init
+      - run: "hugo -v <<# parameters.minify >> --minify<</ parameters.minify >>"
+
+
+
+
 executors:
   builder:
+    environment:
+      HUGO_BUILD_DIR: ~/hugo/public
+      HUGO_ENV: production
     docker:
       - image: cibuilds/hugo:latest
     working_directory: ~/hugo
@@ -11,30 +28,43 @@ executors:
     working_directory: ~/hugo
 
 jobs:
-  build:
+  build-minified:
     executor: builder
     environment:
-      HUGO_BUILD_DIR: ~/hugo/public
-      HUGO_ENV: production
+      HUGO_PUBLISHDIR: minified
     steps:
       - run: sudo apt update && sudo apt install git
       - checkout
       - run: git submodule sync && git submodule update --init
-      - run: hugo -v --minify
+      - hugo:
+          minify: true
       - persist_to_workspace:
           root: ./
-          paths: public
+          paths: minified
+  build:
+    executor: builder
+    environment:
+      HUGO_PUBLISHDIR: build
+    steps:
+      - run: sudo apt update && sudo apt install git
+      - checkout
+      - run: git submodule sync && git submodule update --init
+      - hugo:
+          minify: false
+      - persist_to_workspace:
+          root: ./
+          paths: build
   test:
     executor: builder
     steps:
       - attach_workspace:
-          at: /tmp/workspace
-      - run: htmlproofer /tmp/workspace/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+          at: /tmp
+      - run: htmlproofer /tmp/build --allow-hash-href --check-html --empty-alt-ignore --disable-external || true
   deploy:
     executor: publisher
     steps:
       - attach_workspace:
-          at: ./public
+          at: /tmp
       - run: |
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
             echo -e "Starting to deploy to Github Pages\n"
@@ -48,7 +78,7 @@ jobs:
             #go into directory and copy data we're interested in to that directory
             cd repo
             echo "rsync built code with checked out code..."
-            rsync -r --exclude=.git --delete ../public/ ./
+            rsync -r --exclude=.git --delete /tmp/minified/ ./
             #add, commit and push files
             echo "add files to git..."
             git add -f .
@@ -69,9 +99,10 @@ workflows:
   build_test_deploy:
     jobs:
       - build
+      - build-minified
       - test:
           requires:
             - build
       - deploy:
           requires:
-            - test
+            - build-minified
