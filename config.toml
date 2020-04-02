@@ -12,7 +12,7 @@ dateFormatToUse = "2006-01-02"
 copyright = "Copyright © 2020, Manuel Schönlaub and the Hugo Authors; some rights reserved."
 enableInlineShortcodes = true
 footnoteReturnLinkContents = "^"
-theme = "hugo-theme-chunky-poster"
+theme = "hugo-theme-blogosphere"
 
 [menu]
   [[menu.main]]

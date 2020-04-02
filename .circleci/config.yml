@@ -1,9 +1,18 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  builder:
     docker:
       - image: cibuilds/hugo:latest
     working_directory: ~/hugo
+  publisher:
+    docker:
+      - image: alpine/git:latest
+    working_directory: ~/hugo
+
+jobs:
+  build:
+    executor: builder
     environment:
       HUGO_BUILD_DIR: ~/hugo/public
       HUGO_ENV: production
@@ -11,33 +20,59 @@ jobs:
       - run: sudo apt update && sudo apt install git
       - checkout
       - run: git submodule sync && git submodule update --init
-      - deploy:
-          name: Deploy static pages to Github Pages
-          command: |
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              echo -e "Starting to deploy to Github Pages\n"
-              git config --global user.email "builds@circleci.com"
-              git config --global user.name "CircleCI"
-              #using token clone gh-pages branch
-              git clone --quiet --branch=$CIRCLE_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO} ./repo > /dev/null
-              # Installing rsync
-              echo "Installing rsync"
-              sudo apt-get -y install rsync
-              #go into directory and copy data we're interested in to that directory
-              cd repo
-              echo "rsync built code with checked out code..."
-              rsync -r --exclude=.git --delete ../${HUGO_BUILD_DIR}/ ./
-              #add, commit and push files
-              echo "add files to git..."
-              git add -f .
-              echo "commit files to git repository..."
-              if git commit -m "CircleCI build $CIRCLE_BUILD_NUM pushed to Github Pages" ; then
-                echo "git push files with force..."
-                git push -fq origin $BRANCH > /dev/null
-                echo -e "Deploy completed\n"
-              else
-                echo "Content not changed, nothing to deploy"
-              fi
+      - run: hugo -v --minify
+      - persist_to_workspace:
+          root: ./
+          paths: public
+  test:
+    executor: builder
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: htmlproofer /tmp/workspace/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+  deploy:
+    executor: publisher
+    steps:
+      - attach_workspace:
+          at: ./public
+      - name: Deploy static pages to Github Pages
+        command: |
+          if [ "${CIRCLE_BRANCH}" = "master" ]; then
+            echo -e "Starting to deploy to Github Pages\n"
+            git config --global user.email "builds@circleci.com"
+            git config --global user.name "CircleCI"
+            #using token clone gh-pages branch
+            git clone --quiet --branch=$CIRCLE_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO} ./repo > /dev/null
+            # Installing rsync
+            echo "Installing rsync"
+            sudo apt-get -y install rsync
+            #go into directory and copy data we're interested in to that directory
+            cd repo
+            echo "rsync built code with checked out code..."
+            rsync -r --exclude=.git --delete ../public/ ./
+            #add, commit and push files
+            echo "add files to git..."
+            git add -f .
+            echo "commit files to git repository..."
+            if git commit -m "CircleCI build $CIRCLE_BUILD_NUM pushed to Github Pages" ; then
+              echo "git push files with force..."
+              git push -fq origin master > /dev/null
+              echo -e "Deploy completed\n"
             else
-              echo "Not master branch, dry run only"
+              echo "Content not changed, nothing to deploy"
             fi
+          else
+            echo "Not master branch, dry run only"
+          fi
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
