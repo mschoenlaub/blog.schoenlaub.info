@@ -7,7 +7,7 @@ jobs:
     environment:
       HUGO_BUILD_DIR: ~/hugo/public
     steps:
-      - run: apt update && apt git
+      - run: apt update && apt install git
       - checkout
       - run: git submodule sync && git submodule update --init
       - deploy:
