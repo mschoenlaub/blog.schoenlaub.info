@@ -28,6 +28,7 @@ runs:
     - uses: actions/download-artifact@v3
     - shell: sh
       run: |
+        ls -R ./
         tar -xvfz github-pages/artifact.tar -C ${{ runner.temp }}/${{ inputs.directory }}
     - uses: cloudflare/pages-action@v1
       with:
