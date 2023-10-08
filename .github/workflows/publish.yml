@@ -1,4 +1,4 @@
-name: Deploy Hugo site to Pages
+name: Deploy Hugo site
 
 on:
   push:
@@ -9,8 +9,7 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  deployments: read
 
 concurrency:
   group: "pages"
