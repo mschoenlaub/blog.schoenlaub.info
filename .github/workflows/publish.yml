@@ -1,4 +1,4 @@
-name: Deploy Hugo site
+name: Deploy Hugo site to Pages
 
 on:
   push:
@@ -48,9 +48,8 @@ jobs:
             --minify \
             --baseURL "https://blog.schoenlaub.info/"
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-package-artifact@v2
         with:
-          name: public
           path: public
   deploy:
     environment:
@@ -60,10 +59,8 @@ jobs:
     needs: build
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: public
-          path: public
+        uses: actions/download-artifact@v3
+      - run: ls -R
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
