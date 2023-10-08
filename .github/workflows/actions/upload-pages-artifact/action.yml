@@ -5,16 +5,10 @@ inputs:
   name:
     description: 'Artifact name'
     required: false
-    default: 'github-pages/artifact.tar'
 runs:
   using: composite
   steps:
+    - uses: actions/download-artifact@v3
     - shell: sh
       run: |
-        ls -R 'github-pages'
-    - shell: sh
-      run: |
-        tar xvfz ${{ inputs.name }} ${{ runner.temp }}/pages
-    - shell: sh
-      run: | 
-        ls -R ${{ runner.temp }}/pages
+        tar -tvfz github-pages/artifact.tar
