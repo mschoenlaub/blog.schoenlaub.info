@@ -54,13 +54,7 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
-      - run: ls -R
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Deploy page
+        uses: "./.github/workflows/actions/upload-pages-artifact"
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
-          directory: ./public
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
+          token: ${{ secrets.GITHUB_TOKEN }}

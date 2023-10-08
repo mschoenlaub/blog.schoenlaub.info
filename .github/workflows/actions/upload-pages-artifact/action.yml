@@ -1,0 +1,17 @@
+name: "Publish GitHub Pages artifact"
+description: "A composite action that uploads your static assets to a page"
+author: "Manuel Schönlaub"
+inputs:
+  name:
+    description: 'Artifact name'
+    required: false
+    default: 'github-pages/artifact.tar'
+runs:
+  using: composite
+  steps:
+    - name: Archive artifact
+      shell: sh
+      if: runner.os == 'Linux'
+      run: |
+        tar -xvfz ${{ inputs.name }} $RUNNER_TEMP/artifact
+    - run: ls -R $RUNNER_TEMP/artifact
