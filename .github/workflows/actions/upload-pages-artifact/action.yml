@@ -17,7 +17,6 @@ runs:
     - shell: sh
       run: |
         tar -xvfz github-pages/artifact.tar -C ${{ runner.temp }}/${{ inputs.directory }}
-          - name: Publish to Cloudflare Pages
     - uses: cloudflare/pages-action@v1
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
