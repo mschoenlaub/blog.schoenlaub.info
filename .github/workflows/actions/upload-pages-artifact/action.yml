@@ -9,10 +9,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Archive artifact
-      shell: sh
-      if: runner.os == 'Linux'
+    - shell: sh
       run: |
-        tar -xvfz ${{ inputs.name }} $RUNNER_TEMP/artifact
-    - run: ls -R $RUNNER_TEMP/artifact
-      shell: sh
+        ls -R github-pages
