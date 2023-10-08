@@ -11,6 +11,9 @@ runs:
   steps:
     - shell: sh
       run: |
+        ls -R 'github-pages'
+    - shell: sh
+      run: |
         tar xvfz ${{ inputs.name }} ${{ runner.temp }}/pages
     - shell: sh
       run: | 
