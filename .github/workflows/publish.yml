@@ -42,7 +42,7 @@ jobs:
             --minify \
             --baseURL "https://blog.schoenlaub.info/"
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: public
   deploy:
