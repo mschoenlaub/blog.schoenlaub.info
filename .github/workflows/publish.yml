@@ -57,5 +57,4 @@ jobs:
       - name: Deploy page
         uses: "./.github/workflows/actions/upload-pages-artifact"
         with:
-          name: "public"
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -5,10 +5,24 @@ inputs:
   name:
     description: 'Artifact name'
     required: false
+    default: 'github-pages'
+  directory:
+    description: 'Directory to upload'
+    required: false
+    default: 'public'
 runs:
   using: composite
   steps:
     - uses: actions/download-artifact@v3
     - shell: sh
       run: |
-        tar -tvf github-pages/artifact.tar
+        tar -xvfz github-pages/artifact.tar -C ${{ runner.temp }}/${{ inputs.directory }}
+          - name: Publish to Cloudflare Pages
+    - uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
+        directory: ${{ runner.temp }}/${{ inputs.directory }}
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        wranglerVersion: '3'
