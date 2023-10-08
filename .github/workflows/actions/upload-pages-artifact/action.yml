@@ -11,4 +11,4 @@ runs:
     - uses: actions/download-artifact@v3
     - shell: sh
       run: |
-        tar -tvfz github-pages/artifact.tar
+        tar -tvf github-pages/artifact.tar
