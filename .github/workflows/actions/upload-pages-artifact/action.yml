@@ -10,6 +10,18 @@ inputs:
     description: 'Directory to upload'
     required: false
     default: 'public'
+  apiToken:
+    description: 'Cloudflare API token'
+    required: false
+  accountId:
+    description: 'Cloudflare account ID'
+    required: false
+  projectName:
+    description: 'Cloudflare Pages project name'
+    required: false
+  gitHubToken:
+    description: 'GitHub token'
+    required: false
 runs:
   using: composite
   steps:
@@ -19,9 +31,9 @@ runs:
         tar -xvfz github-pages/artifact.tar -C ${{ runner.temp }}/${{ inputs.directory }}
     - uses: cloudflare/pages-action@v1
       with:
-        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
+        apiToken: ${{ inputs.apiToken }}
+        accountId: ${{ inputs.accountId }}
+        projectName: ${{ inputs.projectName }}
         directory: ${{ runner.temp }}/${{ inputs.directory }}
-        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        gitHubToken: ${{ inputs.gitHubToken }}
         wranglerVersion: '3'

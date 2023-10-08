@@ -57,4 +57,8 @@ jobs:
       - name: Deploy page
         uses: "./.github/workflows/actions/upload-pages-artifact"
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          directory: public
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
