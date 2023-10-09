@@ -32,8 +32,12 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Install node dependencies
+        run: npm ci
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
