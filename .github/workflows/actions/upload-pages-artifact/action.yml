@@ -28,13 +28,12 @@ runs:
     - uses: actions/download-artifact@v3
     - shell: sh
       run: |
-        ls -R ./
-        tar -xvfz github-pages/artifact.tar -C ${{ runner.temp }}/${{ inputs.directory }}
+        tar -xvf github-pages/artifact.tar -C ${{ runner.temp }}
     - uses: cloudflare/pages-action@v1
       with:
         apiToken: ${{ inputs.apiToken }}
         accountId: ${{ inputs.accountId }}
         projectName: ${{ inputs.projectName }}
-        directory: ${{ runner.temp }}/${{ inputs.directory }}
+        directory: ${{ runner.temp }}
         gitHubToken: ${{ inputs.gitHubToken }}
         wranglerVersion: '3'
