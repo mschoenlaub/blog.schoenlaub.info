@@ -14,7 +14,7 @@ defaults:
   run:
     shell: bash
 env:
-  BASE_URL: https://www.schoenlaub.info/
+  BASE_URL: https://schoenlaub.dev/
 jobs:
   build:
     runs-on: ubuntu-latest
