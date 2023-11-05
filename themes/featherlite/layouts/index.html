@@ -2,10 +2,8 @@
 <article class="text-center text-gray-700 dark:text-gray-200">
     <div class="flex flex-col h-screen -mt-4 sm:-mt-16">
         <div class="m-auto">
-            {{ with $author := ($.Site.GetPage "page" (printf "authors/%s" (.Param "author"))) }}
-            {{ with $author.Resources.Get "avatar.jpg"  }}
+            {{ with resources.Get "img/logo.jpg" }}
             {{ partial "logo.html" . }}
-            {{ end }}
             {{ end }}
             <h1 class="font-light text-5xl text-gray-700 dark:text-gray-200">{{ .Title }}</h1>
             {{ .Content }}

@@ -59,6 +59,7 @@ markup:
     tabWidth: 2
 
 params:
+  logo: img/logo.jpg
   authors:
     - mschoenlaub
   themeColor: "#000000"
