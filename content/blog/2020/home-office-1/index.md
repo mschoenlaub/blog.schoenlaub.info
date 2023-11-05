@@ -1,18 +1,22 @@
-+++
-title = "Home Office - Part I"
-date = "2020-02-21"
-description = "First part of a series on how to tackle challenges that come with homeoffice"
-cover = { src = "cover.jpg", caption = "Home Office" }
-tags = [
-    "corona", 
-    "homeoffice",
-    "teleworking",
-]
-authors = ["mschoenlaub"]
-series = ["Home Office"]
-lastmod = "2020-03-21"
-syndication = { twitter = "https://twitter.com/m_schoenlaub/status/1230950000000000000"}
-+++
+---
+title: Home Office - Part I
+date: 2020-02-21
+description: First part of a series on how to tackle challenges that come with homeoffice
+cover:
+  src: cover.jpg
+  caption: Home Office
+tags:
+  - corona
+  - homeoffice
+  - teleworking
+authors:
+  - mschoenlaub
+series:
+  - Home Office
+lastmod: 2020-03-21
+syndication:
+  github: https://github.com/mschoenlaub/blog.schoenlaub.info/issues/1
+---
 
 The past weeks have been times of disruption for Europe and all the world.
 In an effort to slow down the spread of COVID19, governments all across the world have implemented rigorous measures
