@@ -69,7 +69,8 @@ params:
     tokenEndpoint: "https://tokens.indieauth.com/token"
   webmention:
     webmentionUrl: "https://webmention.io"
-    webmentionEndpoint: "/webmention"
+    webmentionEndpoint: "/schoenlaub.dev/webmention"
+    webmentionPingbackEndpoint: "/schoenlaub.dev/xmlrpc"
 
 permalinks:
   posts: "/:year/:month/:slug/"
