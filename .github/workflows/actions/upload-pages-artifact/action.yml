@@ -3,24 +3,24 @@ description: "A composite action that uploads your static assets to a page"
 author: "Manuel Schönlaub"
 inputs:
   name:
-    description: 'Artifact name'
+    description: "Artifact name"
     required: false
-    default: 'github-pages'
+    default: "github-pages"
   directory:
-    description: 'Directory to upload'
+    description: "Directory to upload"
     required: false
-    default: 'public'
+    default: "public"
   apiToken:
-    description: 'Cloudflare API token'
+    description: "Cloudflare API token"
     required: false
   accountId:
-    description: 'Cloudflare account ID'
+    description: "Cloudflare account ID"
     required: false
   projectName:
-    description: 'Cloudflare Pages project name'
+    description: "Cloudflare Pages project name"
     required: false
   gitHubToken:
-    description: 'GitHub token'
+    description: "GitHub token"
     required: false
 runs:
   using: composite
@@ -36,4 +36,4 @@ runs:
         projectName: ${{ inputs.projectName }}
         directory: ${{ runner.temp }}
         gitHubToken: ${{ inputs.gitHubToken }}
-        wranglerVersion: '3'
+        wranglerVersion: "3"

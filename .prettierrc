@@ -1,5 +1,6 @@
 {
   "printWidth": 120,
+  "tabWidth": 2,
   "bracketSameLine": true,
   "htmlWhitespaceSensitivity": "strict",
   "plugins": ["prettier-plugin-go-template"],

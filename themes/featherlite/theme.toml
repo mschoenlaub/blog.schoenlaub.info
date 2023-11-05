@@ -15,7 +15,6 @@ name = "Manuel Schönlaub"
 homepage = "https://github.com/mschoenlaub/"
 
 [original]
-  name = "Christian Engel"
-  homepage = "https://github.com/chringel21/"
-  repo = "https://github.com/chringel21/chringel-hugo-theme"
-
+name = "Christian Engel"
+homepage = "https://github.com/chringel21/"
+repo = "https://github.com/chringel21/chringel-hugo-theme"

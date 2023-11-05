@@ -1,6 +1,6 @@
 {{ $icon := resources.Get (print "icons/feather/" .name ".svg" ) }}
-{{ $size := .size | default 2 }}
+{{ $size := .size | default "[1em]" | string }}
 {{ with $icon }}
-  {{- $classes:= printf "class=\"feather h-%d w-%d" $size $size -}}
+  {{- $classes:= printf "class=\"feather h-%s w-%s" $size $size -}}
   {{ replace (.Content) "class=\"feather" $classes | safeHTML }}
 {{ end }}

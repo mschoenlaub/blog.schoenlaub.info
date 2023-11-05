@@ -1,0 +1,15 @@
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+        "@graph": [
+            {{- partial "schemas/schema_WebSite.html" . | safeJS -}},
+            {{- partial "schemas/schema_WebPage.html" . | safeJS -}}
+            {{- if .IsPage }},
+            {{- partial "schemas/schema_Article.html" . | safeJS -}}
+            {{- end -}}
+            {{- if eq .Type "author" }},
+            {{- partial "schemas/schema_Person.html" . | safeJS -}}
+            {{- end -}}
+        ]
+    }
+</script>

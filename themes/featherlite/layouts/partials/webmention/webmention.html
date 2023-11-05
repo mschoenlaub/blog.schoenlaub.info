@@ -1,0 +1,18 @@
+{{ if .Site.Data.webmentions }}
+{{ $replies := (where (where (where .Site.Data.webmentions "relativeTarget" "==" $.RelPermalink) "content" "!=" "") "type" "in" (slice "reply" "mention")) }}
+{{ $reactions := (where (where .Site.Data.webmentions "relativeTarget" "==" $.RelPermalink) "type" "in" (slice "like" "repost" "bookmark")) }}
+
+{{ if $replies }}
+<section>
+    <h4>Responses</h4>
+    <ul class="list-none">
+        {{ range $replies }}
+        <li class="flex u-comment h-cite mb-5">
+            {{ partial "webmention/response.html" . }}
+        </li>
+        {{ end }}
+    </ul>
+</section>
+<hr>
+{{ end }}
+{{ end }}

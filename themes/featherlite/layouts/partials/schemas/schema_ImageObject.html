@@ -1,0 +1,31 @@
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+{{- $iso8601d := "2006-01-02" -}}
+{{- $iso8601y := "2006" -}}
+{{- $mainID := printf "%s#image" (.Get "src" | absURL) -}}
+{{- $hashArticle := printf "%s#article" (.Page.Permalink) -}}
+{{- $hashWebPage := printf "%s#webpage" (.Page.Permalink) -}}
+{{- $hashWebContent := printf "%s#webcontent" (.Page.Permalink) -}}
+{{- $hashThumbnail := printf "%s#thumbnail" (.urls.thumbnail | absURL) -}}
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    "@id": {{ $mainID }},
+    "caption": {{ .alt_description | plainify }},
+    "thumbnail": {
+      "@id": {{ $hashThumbnail }},
+      "contentUrl": {{ .urls.thumbnail | absURL }},
+      "url": {{ .urls.thumbnail | absURL }},
+      "@type": "ImageObject"
+    },
+    "contentUrl": {{ .urls.raw | absURL }},
+    "height": {{ .height }},
+    "width": {{ .width }},
+    "creativeWorkStatus": "Published",
+    "dateCreated": {{ .created_at | safeHTML }},
+    "dateModified": {{ .updated_at | safeHTML }},
+    "isPartOf": [{"@id": {{ $hashArticle }}},{"@id": {{ $hashWebPage }}},{"@id": {{ $hashWebContent }}}],
+    "thumbnailUrl": {{ .urls.thumbnail | absURL }}
+    "url": {{ .urls.raw | absURL }}
+    }
+</script>

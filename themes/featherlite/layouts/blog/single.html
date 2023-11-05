@@ -1,124 +1,72 @@
 {{ define "main" }}
-  <div
-    class="px-6 mx-auto mb-16 prose text-gray-700 justify-self-center sm:px-4 md:px-0 lg:prose-lg dark:prose-dark
-prose-code:bg-gray-200 prose-code:dark:bg-gray-500 prose-code:rounded-md prose-code:p-1 prose-code:font-light">
+<div class="px-6 mx-auto mb-16 prose justify-self-center sm:px-4 md:px-0 lg:prose-lg dark:prose-invert prose-a:no-underline">
     {{/* h-entry */}}
     <article class="h-entry">
-      {{/* h-entry */}}
-      <h1 class="p-name">{{ .Title }}</h1>
-      <div>
-        <span class="text-gray-400">
-          {{ partial "icon" (dict "name" "clock" "size" 5) }}
+        {{/* h-entry */}}
+        <h1 class="p-name">{{ .Title }}</h1>
+        <div>
+        <span class="font-light">
+          {{ partial "icon" (dict "name" "clock") }}
           {{ .ReadingTime }} minute read
         </span>
-      </div>
-      {{ with .Params.cover }}
+        </div>
+        {{ with .Params.cover }}
         {{ $caption := .caption | default $.Page.Title }}
         {{ partial "image.html" (dict "Page" $.Page "Destination" .src "Title" $caption) }}
-      {{ end }}
-      {{- if .Params.series -}}
+        {{ end }}
+        {{- if .Params.series -}}
         {{- with index (.GetTerms "series") 0 -}}
-          <div class="notice">
+        <aside class="border-l-2 border-l-accent-400 pl-3 text-sm">
             <p>This post is part of the <a href="{{ .Permalink }}">{{ .LinkTitle }}</a> series.</p>
-          </div>
+        </aside>
         {{- end -}}
-      {{- end -}}
-      {{/* h-entry */}}
-      <div class="e-content">
-        {{ .Content }}
-      </div>
-      <hr />
-      {{- if .Params.series -}}
-        <div class="post-series">
-          {{- $series := where .Site.RegularPages.ByDate ".Params.series" "intersect" .Params.series -}}
-          {{- with $series -}}
-            <h3 id="series">This series</h3>
-            <ol>
-              {{- range . -}}
-                <li>
-                  {{- if eq .File.UniqueID $.File.UniqueID -}}
-                    <b>{{ .Title }}</b>
-                  {{- else -}}
-                    <a href="{{ .Permalink }}">{{ .Title }}</a>
-                  {{- end -}}
-                </li>
-              {{- end -}}
-            </ol>
-          {{- end -}}
+        {{- end -}}
+        {{/* h-entry */}}
+        <div class="e-content">
+            {{ .Content }}
         </div>
-        <hr />
-      {{- end -}}
-      {{ with .Params.syndication }}
-        <div class="pb-2 text-gray-500">
+        <hr/>
+        {{ with .Params.syndication }}
+        {{- partial "syndication.html" . -}}
+        {{ end }}
+        {{ partial "post-meta.html" . }}
+        {{/* h-entry */}}
+        {{ with .Params.author }}
+        <div class="pb-2">
           <span class="font-bold">
-            {{ partial "icon" (dict "logoname" "share-2" "size" 5) }}
-            Interact With This Post At:
-          </span>
-          {{ range $silo, $url := . }}
-            {{ $logo := printf "logo-%s" $silo }}
-            <a href="{{ $url }}" class="u-syndication" rel="syndication">
-              <span class="font-bold">{{ partial "icon" (dict "name" $logo "size" 5) }}</span>
-              {{ title $silo }}
-            </a>
-          {{ end }}
-        </div>
-      {{ end }}
-      {{ partial "post-dates.html" . }}
-      {{/* h-entry */}}
-      {{ with .Params.author }}
-        <div class="pb-2 text-gray-500">
-          <span class="font-bold">
-            {{ partial "icon" (dict "name" "user" "size" 5) }}
+            {{ partial "icon" (dict "name" "user") }}
             Posted By:
           </span>
-          <a rel="author" class="p-author h-card" href="{{ " about" | relURL }}"
-            >{{ . }}
+            <a rel="author" class="p-author h-card" href="{{ "about" | relURL }}"
+            >{{- . -}}
             {{ with $.Site.Params.Hcard.Avatar }}
-              {{ $image := resources.Get . }}
-              <img
-                class="u-photo hidden"
-                src="{{ ($image.Fit " 200x200 webp").RelPermalink }}"
-                width="200"
-                height="200"
-                alt="{{ $.Site.Params.Hcard.FullName }}" />
-            {{ end }}</a
-          >
+            {{ $image := resources.Get . | fingerprint }}
+            <img
+                    class="u-photo hidden"
+                    src="{{ ($image.Fit " 200x200 webp").RelPermalink }}"
+            width="200"
+            height="200"
+            alt="{{ $.Site.Params.Hcard.name }}" />
+            {{ end }}
+            </a>
         </div>
-      {{ end }}
-      {{ with .Params.categories }}
-        <div class="pb-2 text-gray-500">
+        {{ end }}
+        {{ with .Params.categories }}
+        <div class="pb-2">
           <span class="font-bold">
-            {{ partial "icon" (dict "name" "folder" "size" 5) }}
+            {{ partial "icon" (dict "name" "folder") }}
             Categories:
           </span>
-          {{ range $idx, $category := . }}
+            {{ range $idx, $category := . }}
             {{- if ne $idx 0 }}{{ end }}
             {{/* h-entry */}}
             <a href="{{ " categories/" | relURL }}{{ $category | urlize }}" class="p-category">{{ $category }}</a>
-          {{- end }}
+            {{- end }}
         </div>
-      {{ end }}
-      {{ with .Params.tags }}
-        <div class="pb-2 text-gray-500">
-          <span class="font-bold">
-            {{ partial "icon" (dict "name" "tag" "size" 5) }}
-            Tags:
-          </span>
-          {{ range $idx, $tag := . }}
-            {{- if ne $idx 0 }}{{ end }}
-            <a
-              href="{{ "tags/" | relURL }}{{ $tag | urlize }}"
-              class="rounded-md text-base border border-gray-300 hover:bg-gray-100 w-1/2 p-1 items-center justify-center
-      no-underline text-gray-500"
-              >{{ $tag }}</a
-            >
-          {{- end }}
-        </div>
-      {{ end }}
-      <hr />
+        {{ end }}
+        <hr/>
     </article>
-    {{ partial "prev-next.html" . }}
-    {{ partial "webmention.html" . }}
+    {{ partial "pagination/prev-next.html" . }}
     {{ partial "comments.html" . }}
-  </div>
+</div>
 {{ end }}

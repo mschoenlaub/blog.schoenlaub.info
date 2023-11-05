@@ -6,11 +6,10 @@
     <div class="dark:text-gray-200 m-2">
       {{ .Content }}
     </div>
-    <div class="w-48 m-auto my-8 border-accent-400 border-2 rounded-sm"></div>
-
+    <hr class="w-48 m-auto my-8 border-accent-400 border-2 rounded-sm" />
     <div class="grid md:grid-cols-2 gap-4">
       {{ range .Pages.ByPublishDate.Reverse }}
-        {{ partial "widgets/post-card.html" . }}
+        {{ partial "cards/post-card.html" . }}
       {{ end }}
     </div>
   </article>

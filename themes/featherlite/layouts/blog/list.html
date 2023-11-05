@@ -1,14 +1,14 @@
 {{ define "main" }}
-  <main class="px-6 mx-auto max-w-2xl mb-16 text-gray-700 justify-self-center sm:px-4 md:px-0 dark:prose-dark">
+  <article class="px-6 mx-auto max-w-2xl mb-16 justify-self-center sm:px-4 md:px-0 prose dark:prose-invert">
     <h1 class="text-center font-light text-5xl m-0">{{ .Title }}</h1>
     {{ .Content }}
-    <div class="w-48 m-auto my-8 border-accent-400 border-2 rounded-sm"></div>
-    <div class="grid md:grid-cols-2 gap-4">
+    <hr class="w-48 m-auto my-8 border-accent-400 border-2 rounded-sm" />
+    <div class="grid md:grid-cols-2 gap-4 not-prose">
       {{ $numberOfItems := .Site.Params.paginate | default 10 }}
       {{ range .Paginator.Pages.ByPublishDate.Reverse | first $numberOfItems }}
-        {{ partial "widgets/post-card.html" . }}
+        {{ partial "cards/post-card.html" . }}
       {{ end }}
     </div>
-    {{ partial "widgets/pagination.html" . }}
-  </main>
+    {{ partial "pagination/pagination.html" . }}
+  </article>
 {{ end }}

@@ -1,46 +1,60 @@
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="{{ .Params.ThemeColor }}" />
-<meta name="author" content="{{ .Site.Author.Name }}" />
-<meta
-  name="description"
-  content="{{ if .IsHome }}
-    {{ $.Site.Params.description }}
-  {{ else }}
-    {{ .Description }}
-  {{ end }}" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{{ with .Param "authors" }}
+{{ range $i, $author := . }}
+{{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
+<meta name="author" content="{{ .Param "name" }}">
+{{ end }}
+{{ end }}
+{{ end }}
+{{ partial "schemas/semweb.html" . }}
+<title>{{ .Title | default .Site.Title }}</title>
+<!-- prettier-ignore -->
+<meta name="description"
+      content="{{- if .IsHome -}}{{- $.Site.Params.description -}}{{- else -}}{{- .Description -}}{{- end -}}" />
+<!-- prettier-ignore -->
+<script type="application/javascript">
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+{{ if .IsHome }}
 {{ $scrollJs := resources.Get "js/scroll.js" | js.Build  | minify | fingerprint }}
 <script src="{{ $scrollJs.RelPermalink }}" integrity="{{ $scrollJs.Data.Integrity }}" defer></script>
-
-<link rel="canonical" href="{{ .Permalink }}" />
-<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}" />
+{{ with $inlineCss :=  resources.Get "critical/index.css" }}
+<!-- prettier-ignore -->
+<style>{{ ($inlineCss | resources.PostCSS ).Content | safeCSS }}</style>
+{{ end }}
+{{ end }}
+{{ $switcher := resources.Get "js/switcher.js" | js.Build  | minify | fingerprint }}
+<script src="{{ $switcher.RelPermalink }}" integrity="{{ $switcher.Data.Integrity }}" defer></script>
+<link rel="canonical" href="{{ .Permalink }}"/>
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}"/>
 
 {{ if .IsTranslated }}
-  {{ range .Translations }}
-    <link
-      rel="alternate"
-      hreflang="{{ .Language.Lang }}"
-      href="{{ .Permalink }}"
-      title="{{ .Language.LanguageName }}" />
-  {{ end }}
+{{ range .Translations }}
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}"/>
+{{ end }}
 {{ end }}
 
 {{ range .AlternativeOutputFormats -}}
-  {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+{{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
 {{ end -}}
-{{ $style := resources.Get "css/main.css" | resources.PostCSS | resources.PostProcess }}
-<link rel="stylesheet" href="{{ $style.Permalink }}" />
-
+{{ $options := dict "inlineImports" true }}
+{{ $style := resources.Get "css/main.css" | resources.PostCSS $options }}
+{{ if hugo.IsProduction }}
+{{ $style = $style | fingerprint | resources.PostProcess }}
+{{ end }}
+<link rel="preload" href="{{ $style.Permalink }}" as="style" onload="this.rel='stylesheet'"/>
+<link rel="stylesheet" href="{{ $style.Permalink }}" media="print" onload="this.media='all'"/>
 {{ template "partials/favicons.html" . }}
 
 {{ with .Site.Params.indieweb }}
-  <link rel="authorization_endpoint" href="{{ .authorizationEndpoint | default "https://indieauth.com/auth" }}" />
-  <link rel="token_endpoint" href="{{ .tokenEndpoint | default "https://tokens.indieauth.com/token" }}" />
+<link rel="authorization_endpoint" href="{{ .authorizationEndpoint | default " https://indieauth.com/auth" }}" />
+<link rel="token_endpoint" href="{{ .tokenEndpoint | default " https://tokens.indieauth.com/token" }}" />
 {{ end }}
 
 {{ with .Site.Params.webmention }}
-  <link rel="webmention" href="{{ .webmentionUrl }}{{ .webmentionEndpoint }}" />
-  <link rel="pingback" href="{{ .webmentionUrl }}{{ .webmentionPingbackEndpoint }}" />
+<link rel="webmention" href="{{ .webmentionUrl }}{{ .webmentionEndpoint }}"/>
+<link rel="pingback" href="{{ .webmentionUrl }}{{ .webmentionPingbackEndpoint }}"/>
 {{ end }}
 
 {{ hugo.Generator }}

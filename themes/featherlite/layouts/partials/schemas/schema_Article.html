@@ -1,0 +1,48 @@
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+{{- $iso8601y := "2006" -}}
+{{- $dateCreated := .Date.UTC | time.Format $iso8601 -}}
+{{- $datePublished := (or .PublishDate .Date)| time.Format $iso8601 -}}
+{{- $dateModified := .Lastmod.UTC | time.Format $iso8601 -}}
+{{- $dateModifiedYear := $dateModified | time.Format $iso8601y -}}
+{
+"@type": [ "Article"{{ with $.Param "isBlog" }}, "BlogPosting"{{ end }} ],
+"@id": "{{ .Permalink }}#article",
+{{ with or (.Params.categories) (.Params.tags) }}"articleSection": [ {{ delimit (apply (apply . "chomp" ".") "jsonify" ".") ", " }} ],{{ end }}
+"wordCount": "{{ .Plain | countwords }}",
+{{ with .Param "authors" }}"author": [
+{{ range $i, $author := . }}{{ if $i }}, {{ end }}
+{{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
+{
+"@id": "{{ $authorPage.Permalink }}#person",
+"url": "{{ $authorPage.Permalink }}",
+"name": "{{ $authorPage.Param "name" }}"
+}
+{{ end }}
+{{ end }}
+],{{ end }}
+{{ with .Params.authors }}"creator": [
+{{ range $i, $author := . }}{{ if $i }}, {{ end }}
+{{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
+{
+"@id": "{{ $authorPage.Permalink }}#person",
+"url": "{{ $authorPage.Permalink }}",
+"name": "{{ $authorPage.Param "name" }}"
+}
+{{ end }}
+{{ end }}
+],{{ end }}
+"copyrightYear": "{{ $dateModifiedYear | safeHTML }}",
+"creativeWorkStatus": "Published",
+"dateCreated": "{{ $dateCreated | safeHTML }}",
+"dateModified": "{{ $dateModified | safeHTML }}",
+"datePublished": "{{ $datePublished | safeHTML }}",
+{{ with .ExpiryDate }}"expires": "{{ . | safeHTML }}",{{ end }}
+"headline": "{{ .Title }}",
+"inLanguage": "{{ or (.Language.LanguageCode) (.Language.Lang) }}",
+"isPartOf": [{"@id": "{{ .Permalink }}#webpage"},{"@id": "{{ .Permalink }}#webcontent"}],
+{{ with .Keywords }}"keywords": [ {{ delimit (apply (apply . "chomp" ".") "jsonify" ".") ", " }} ],{{ end }}
+{{ with or (.Description) (.Summary) }}"description": "{{ . | plainify }}",{{ end }}
+"mainEntityOfPage": [{"@id": "{{ .Permalink }}#article"},{"@id": "{{ .Permalink }}#webpage"},{"@id": "{{ .Permalink }}#webcontent"}],
+"name": "{{ .Title }}",
+"url": "{{ .Permalink }}"
+}

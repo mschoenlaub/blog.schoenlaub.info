@@ -1,0 +1,23 @@
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+{{- $iso8601y := "2006" -}}
+{{- $firstPage := index (sort site.Pages "Date" "asc") 0 -}}
+{{- $lastPage := index (sort site.Pages "Date" "desc") 0 -}}
+{{- $dateCreated := $firstPage.Date.UTC | time.Format $iso8601 -}}
+{{- $datePublished := (or $firstPage.PublishDate $firstPage.Date)| time.Format $iso8601 -}}
+{{- $dateModified := $lastPage.Lastmod.UTC | time.Format $iso8601 -}}
+{{- $dateModifiedYear := $dateModified | time.Format $iso8601y -}}
+{
+"@type": "WebSite",
+"@id": "{{ site.BaseURL }}#website",
+"copyrightYear": "{{ $dateModifiedYear | safeHTML }}",
+"creativeWorkStatus": "Published",
+"dateCreated": "{{ $dateCreated | safeHTML }}",
+"dateModified": "{{ $dateModified | safeHTML }}",
+"datePublished": "{{ $datePublished | safeHTML }}",
+{{ with .ExpiryDate }}"expires": "{{ . | safeHTML }}",{{ end }}
+"inLanguage": "{{ or (.Site.LanguageCode) (.Site.Lang) }}",
+{{ with .Site.Params.keywords }}"keywords": [ {{ delimit (apply (apply . "chomp" ".") "jsonify" ".") ", " }} ],{{ end }}
+"description": "{{ .Site.Params.description }}",
+"name": "{{ .Site.Title }}",
+"url": "{{ site.BaseURL }}"
+}

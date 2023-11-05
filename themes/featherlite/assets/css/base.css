@@ -17,14 +17,6 @@
     animation: blink 1s step-end infinite;
   }
 
-  .prose a {
-    @apply transition-colors duration-200 hover:no-underline hover:transition-colors hover:duration-200;
-  }
-
-  .prose a:hover {
-    @apply no-underline transition-colors duration-200;
-  }
-
   .prose a strong {
     color: inherit;
   }
@@ -86,12 +78,8 @@
     @apply flex flex-row;
   }
 
-  /* Shamelessly ripped from https://www.dannyguo.com/blog/how-to-add-copy-to-clipboard-buttons-to-code-blocks-in-hugo/ */
   .copy-code-button {
     @apply border rounded bg-white dark:bg-gray-500 border-gray-900 block ml-auto mr-0;
-    /* Until we get a new version of Tailwind that supports
-        @apply with complex classes, including responsive and pseudo-class variants */
-    /* @apply rounded-sm sm */
     margin-bottom: -2px;
     padding: 3px 8px;
     font-size: 0.875rem;
@@ -102,9 +90,6 @@
   }
 
   .copy-code-button:focus {
-    /* Avoid an ugly focus outline on click in Chrome,
-           but darken the button for accessibility.
-           See https://stackoverflow.com/a/25298082/1481479 */
     @apply outline-none bg-gray-100 dark:bg-gray-700;
   }
 
@@ -120,19 +105,23 @@
     @apply h-10 w-10 opacity-0 ml-1 align-top left-0 absolute -translate-x-full pr-2;
   }
 
-  .notice {
-    @apply border-l-2 border-l-accent-500 pl-3;
-  }
-
-  .footer-copyright a {
-    @apply underline hover:text-accent-400;
-  }
-
   h1.note {
     @apply text-xl hidden;
   }
 
   hr.note {
     @apply m-1;
+  }
+
+  input#nav-toggle:checked ~ label#show-button {
+    display: none;
+  }
+
+  input#nav-toggle:checked ~ label#hide-button {
+    display: flex;
+  }
+
+  input#nav-toggle:checked ~ #nav-menu {
+    display: block;
   }
 }

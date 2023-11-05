@@ -1,23 +1,27 @@
 {{ $permalink := .Permalink }}
-<div
+<section
   class="bg-white dark:bg-gray-700 shadow-sm hover:shadow-lg transition-shadow border border-gray-200 rounded-lg mb-5">
   <div>
     <a href="{{ $permalink }}" aria-label="{{ .Title }}">
       {{ if and (isset .Params "cover") (not (in .Params.cover.src "http")) }}
         {{ $image := .Resources.GetMatch .Params.cover.src }}
-        <img
-          src="{{ ($image.Fill "580x192 webp q100").RelPermalink }}"
-          width="580"
-          height="192"
-          alt="{{ cond (isset .Params.cover "caption") .Params.cover.caption .Title }}"
-          class="h-full rounded-t-lg object-cover" />
+      <picture>
+        <source type="image/webp" srcset="{{ ($image.Fill "580x192 webp q100" | fingerprint).RelPermalink }}" />
+        <source type="{{ $image.MediaType }}" srcset="{{ ($image.Fill "580x192" | fingerprint).RelPermalink }}" />
+        <img class="h-full rounded-t-lg object-cover" decoding="async" width="580" height="192" loading="lazy"
+             src="{{ ($image.Fill "580x192" | fingerprint).RelPermalink }}"
+        alt="{{ cond (isset .Params.cover "caption") .Params.cover.caption .Title }}"
+        title="{{ cond (isset .Params.cover "caption") .Params.cover.caption .Title }}"
+        />
+      </picture>
       {{ else if (in .Params.cover.src "http") }}
-        <img
+      <img
           src="{{ .Params.cover.src }}"
           width="580"
           height="192"
           alt="{{ cond (isset .Params.cover "caption") .Params.cover.caption .Title }}"
-          class="h-1/3 rounded-t-lg object-cover" />
+          title="{{ cond (isset .Params.cover "caption") .Params.cover.caption .Title }}"
+      class="h-1/3 rounded-t-lg object-cover" />
       {{ end }}
     </a>
   </div>
@@ -41,4 +45,4 @@
       </p>
     </div>
   </a>
-</div>
+</section>

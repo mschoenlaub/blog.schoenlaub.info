@@ -1,18 +1,11 @@
-/** @type {import('tailwindcss').Config} */
-const themeDir = __dirname;
 const colors = require("tailwindcss/colors");
-const { borderColor, fontWeight, fontFamily } = require("tailwindcss/defaultTheme");
+const { fontFamily } = require("tailwindcss/defaultTheme");
+const typography = require("@tailwindcss/typography");
 
 module.exports = {
-  content: [
-    themeDir + "/layouts/**/*.html",
-    themeDir + "/assets/**/*.js",
-    themeDir + "/assets/**/*.css",
-    "./layouts/**/*.html",
-    "./assets/**/*.js",
-    "./assets/**/*.css",
-    "./content/**/*.md",
-  ],
+  darkMode: "class",
+  content: ["./hugo_stats.json"],
+  plugins: [typography],
   theme: {
     extend: {
       maxWidth: {
@@ -27,39 +20,14 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            h1: {
-              color: theme("colors.gray.500"),
-              fontWeight: "300",
-            },
+            '--tw-prose-quote-borders': theme("colors.accent.400"),
+            '--tw-prose-invert-quote-borders': theme("colors.accent.400"),
+            '--tw-prose-links': theme("colors.accent.400"),
             a: {
-              fontWeight: "500",
-              color: theme("colors.accent.600"),
-              "&:hover": {
+              '&:hover': {
                 color: theme("colors.accent.800"),
-              },
-            },
-          },
-        },
-        dark: {
-          css: {
-            color: theme("colors.gray.200"),
-            h1: { color: theme("colors.gray.200") },
-            h2: { color: theme("colors.gray.200") },
-            h3: { color: theme("colors.gray.200") },
-            h4: { color: theme("colors.gray.200") },
-            h5: { color: theme("colors.gray.200") },
-            h6: { color: theme("colors.gray.200") },
-            a: { color: theme("colors.accent.500") },
-            p: { color: theme("colors.gray.200") },
-            ul: { color: theme("colors.gray.200") },
-            ol: { color: theme("colors.gray.200") },
-            figcaption: { color: theme("colors.gray.300") },
-            strong: { color: theme("colors.gray.200") },
-            span: { color: theme("colors.gray.200") },
-            code: {
-              color: theme("colors.gray.200"),
-              fontWeight: 800,
-            },
+              }
+            }
           },
         },
       }),
@@ -105,5 +73,4 @@ module.exports = {
       }),
     },
   },
-  plugins: [require("@tailwindcss/typography")],
 };

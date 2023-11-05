@@ -13,7 +13,7 @@
 {{- with $data.user -}}{{- $author = .name -}}{{- $authorUrl = .links.html -}}{{- end -}}
 {{- with $data.alt_description -}}{{ $altDescription = . | humanize }}{{- end -}}
 
-
+{{- partial "schemas/ImageObject.html" $data -}}
 <figure>
   <img alt="{{ $altDescription }}" title="{{ $altDescription }}" src="{{ $imageUrl }}" />
 </figure>

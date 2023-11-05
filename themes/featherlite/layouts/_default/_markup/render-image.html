@@ -8,13 +8,13 @@
     <source
       media="(max-width: {{ $size }}px)"
       type="image/webp"
-      srcset="{{ ($img.Resize (printf "%0.0fx webp" $size)).RelPermalink }}" />
+      srcset="{{ (($img.Resize (printf "%0.0fx webp" $size)) | fingerprint).Permalink }}" />
   {{- end -}}
   {{- range $i, $size := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) -}}
     <source
       media="(max-width: {{ $size }}px)"
       type="{{ $img.MediaType }}"
-      srcset="{{ ($img.Resize (printf "%0.0fx" $size)).RelPermalink }}" />
+      srcset="{{ (($img.Resize (printf "%0.0fx" $size)) | fingerprint).Permalink }}" />
   {{- end -}}
   <img decoding="async" loading="lazy" src="{{ $img.Permalink }}" alt="{{ .PlainText }}" title="{{ .Title }}" />
 </picture>

@@ -1,19 +1,30 @@
 {
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
   "comments": {
     "dependencies": {},
     "devDependencies": {
-      "@csstools/normalize.css": "featherlite",
       "@fontsource/fira-code": "featherlite",
       "@fontsource/fira-sans": "featherlite",
       "@fontsource/merriweather": "featherlite",
-      "@tailwindcss/aspect-ratio": "featherlite",
-      "@tailwindcss/line-clamp": "featherlite",
       "@tailwindcss/typography": "featherlite",
-      "autoprefixer": "featherlite",
+      "critical": "project",
+      "cssnano": "featherlite",
       "feather-icons": "featherlite",
       "postcss": "featherlite",
       "postcss-cli": "featherlite",
-      "postcss-import": "featherlite",
+      "postcss-normalize": "featherlite",
+      "postcss-preset-env": "featherlite",
       "prettier": "featherlite",
       "prettier-plugin-go-template": "featherlite",
       "tailwindcss": "featherlite"
@@ -21,21 +32,20 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@csstools/normalize.css": "12.0.0",
-    "@fontsource/fira-code": "5.0.5",
-    "@fontsource/fira-sans": "5.0.5",
-    "@fontsource/merriweather": "5.0.0",
-    "@tailwindcss/aspect-ratio": "^0.2.1",
-    "@tailwindcss/line-clamp": "^0.2.0",
-    "@tailwindcss/typography": "^0.5.0",
-    "autoprefixer": "^10.4.14",
-    "feather-icons": "4.29.0",
-    "postcss": "^8.4.21",
+    "@fontsource/fira-code": "5.0.13",
+    "@fontsource/fira-sans": "5.0.13",
+    "@fontsource/merriweather": "5.0.8",
+    "@tailwindcss/typography": "^0.5.10",
+    "critical": "^6.0.4",
+    "cssnano": "^6.0.1",
+    "feather-icons": "4.29.01",
+    "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
-    "postcss-import": "^15.1.0",
+    "postcss-normalize": "^10.0.0",
+    "postcss-preset-env": "^9.3.0",
     "prettier": "^3.0.3",
     "prettier-plugin-go-template": "^0.0.15",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.3"
   },
   "name": "mschoenlaub.github.io",
   "version": "0.1.0"

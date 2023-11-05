@@ -1,15 +1,34 @@
 baseUrl: https://schoenlaub.dev
-DefaultContentLanguage: en
 title: Manuel Schönlaub
 enableRobotsTXT: true
 pluralizeListTitles: false
-
 theme: featherlite
 
 taxonomies:
   tag: tags
+  author: authors
+  serie: series
+
+languages:
+  en:
+    languageName: English
+    languageCode: "en-US"
 
 paginate: 3
+
+build:
+  writeStats: true
+  cachebusters:
+    - source: "assets/watching/hugo_stats\\.json"
+      target: "styles\\.css"
+    - source: "(postcss|tailwind)\\.config\\.js"
+      target: "css"
+    - source: "assets/.*\\.(js|ts|jsx|tsx)"
+      target: "js"
+    - source: "assets/.*\\.(.*)$"
+      target: "$1"
+
+sectionPagesMenu: "main"
 
 menu:
   social:
@@ -40,8 +59,10 @@ markup:
     tabWidth: 2
 
 params:
+  authors:
+    - mschoenlaub
   themeColor: "#000000"
-  titleImage: img/profile.jpg
+  titleImage: img/avatar.jpg
   headerTitle: mschoenlaub@blog:~$
   indieweb:
     authorizationEndpoint: "https://indieauth.com/auth"
@@ -62,11 +83,13 @@ module:
       target: "assets"
     - source: "./node_modules/feather-icons/dist/icons"
       target: "assets/icons/feather"
-    - source: "./node_modules/@fontsource/"
-      target: "assets/sass/@fontsource"
-    - source: "./node_modules/@fontsource/fira-sans/files"
-      target: "static/css/files/"
+    - source: "./node_modules/@fontsource"
+      target: "assets/css"
     - source: "./node_modules/@fontsource/fira-code/files"
-      target: "static/css/files/"
+      target: "static/css/files"
+    - source: "./node_modules/@fontsource/fira-sans/files"
+      target: "static/css/files"
     - source: "./node_modules/@fontsource/merriweather/files"
-      target: "static/css/files/"
+      target: "static/css/files"
+    - source: "hugo_stats.json"
+      target: "assets/watching/hugo_stats.json"

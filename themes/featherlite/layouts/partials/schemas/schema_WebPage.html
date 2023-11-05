@@ -1,0 +1,16 @@
+{
+"@type": "WebPage",
+"@id": "{{ .Permalink }}#webpage",
+
+"breadcrumb": [{{- range $i, $ancestor := .Ancestors.Reverse -}}{{ if $i }}, {{ end }}"{{.Permalink | safeHTML }}"{{- end -}}],
+{{ if .IsPage }}"hasPart": {"@id": "{{ .Permalink }}#article"},{{ end }}
+{{ if .IsPage }}"headline": "{{ .Title }}",{{ end }}
+"inLanguage": "{{ or (.Language.LanguageCode) (.Language.Lang) }}",
+"isPartOf": [{"@id": "{{ site.BaseURL }}#website"},{"@id": "{{ .Permalink }}#webcontent"}],
+"mainEntity": [ {{ if .IsPage }}{"@id": "{{ .Permalink }}#article"},{{ end }}{"@id": "{{ .Permalink }}#webpage"}],
+{{ with or (.Description) (.Site.Params.description) }}"description": "{{ . | plainify }}",{{ end }}
+{{ with or (.Summary) (.Site.Params.abstract) }}"abstract": "{{ . | plainify }}",{{ end }}
+"mainEntityOfPage": [{"@id": "{{ .Permalink }}#webpage"},{"@id": "{{ .Permalink }}#webcontent"}],
+"name": "{{ .Title }}",
+"url": "{{ .Permalink }}"
+}

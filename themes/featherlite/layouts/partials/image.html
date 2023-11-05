@@ -7,41 +7,29 @@
     {{ $alt | $.Page.RenderString }}
   </figcaption>
 {{ else }}
-  {{ $image := .Page.Resources.GetMatch .Destination }}
+  {{ $img := .Page.Resources.GetMatch .Destination }}
   {{ $alt := $alt | $.Page.RenderString }}
-
-  {{ $tinyw := default "500x webp" }}
-  {{ $smallw := default "800x webp" }}
-  {{ $mediumw := default "1200x webp" }}
-  {{ $largew := default "1500x webp" }}
-
-  {{ $data := newScratch }}
-  {{ $data.Set "tiny" ($image.Resize $tinyw) }}
-  {{ $data.Set "small" ($image.Resize $smallw) }}
-  {{ $data.Set "medium" ($image.Resize $mediumw) }}
-  {{ $data.Set "large" ($image.Resize $largew) }}
-
-  {{ $tiny := $data.Get "tiny" }}
-  {{ $small := $data.Get "small" }}
-  {{ $medium := $data.Get "medium" }}
-  {{ $large := $data.Get "large" }}
-
-
   <figure>
-    <a href="{{ $image.RelPermalink }}">
+    <a href="{{ $img.Permalink }}">
+      {{- $img := .Page.Resources.GetMatch .Destination -}}
+      {{- if and (not $img) .Page.File -}}
+      {{ $path := path.Join .Page.File.Dir .Destination }}
+      {{- $img = resources.Get $path -}}
+      {{- end -}}
       <picture>
-        <source media="(max-width: 376px)" srcset="{{ with $tiny.RelPermalink }}{{ . }}{{ end }}" />
-        <source media="(max-width: 992px)" srcset="{{ with $small.RelPermalink }}{{ . }}{{ end }}" />
-        <source media="(max-width: 1400px)" srcset="{{ with $medium.RelPermalink }}{{ . }}{{ end }}" />
-        <source media="(min-width: 1600px)" srcset="{{ with $large.RelPermalink }}{{ . }}{{ end }}" />
-        <img
-          alt="{{ $alt }}"
-          title="{{ $alt }}"
-          src="{{ $image }}"
-          height="{{ $image.Height }}"
-          width="{{ $image.Width }}"
-          decoding="async"
-          loading="lazy" />
+        {{- range $i, $size := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) -}}
+        <source
+                media="(max-width: {{ $size }}px)"
+                type="image/webp"
+                srcset="{{ (($img.Resize (printf "%0.0fx webp" $size)) | fingerprint).Permalink }}" />
+        {{- end -}}
+        {{- range $i, $size := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) -}}
+        <source
+                media="(max-width: {{ $size }}px)"
+                type="{{ $img.MediaType }}"
+                srcset="{{ (($img.Resize (printf "%0.0fx" $size)) | fingerprint).Permalink }}" />
+        {{- end -}}
+        <img decoding="async" loading="lazy" src="{{ $img.Permalink }}" alt="{{ .PlainText }}" title="{{ .Title }}" />
       </picture>
     </a>
     <figcaption class="text-sm italic">

@@ -1,0 +1,17 @@
+{
+    "@type": "Person",
+    "@id": "{{ .Permalink }}#person",
+    "name": "{{ .Param "name" }}",
+    "alternateName": "{{ or (.Param "nickname") (.Param "name") }}",
+    {{- with .Param "nationality" }}"nationality": {{ . }},{{- end }}
+    {{- with .Param "alumniOf" }}
+    "alumniOf": [
+        {{ range $i, $alumni := . }}{{- if $i -}}, {{- end -}}
+            {"@type": "CollegeOrUniversity","name": "{{ .name }}"}
+        {{- end }}
+    ],
+    {{ end }}
+    {{- with .Param "jobTitle" }}} "jobTitle": "{{ . }}",{{- end }}
+    "url": "{{ $.Site.BaseURL }}",
+    "sameAs": [{{ range $i, $s := .Param "social" }}{{- if $i -}}, {{- end -}}"{{ . }}"{{- end -}}]
+}

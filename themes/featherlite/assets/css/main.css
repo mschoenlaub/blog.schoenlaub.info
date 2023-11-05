@@ -1,12 +1,68 @@
-@import "@fontsource/fira-sans";
-@import "@fontsource/fira-code";
-@import "@fontsource/merriweather";
-
-@import "assets/css/base.css";
-
-@import "assets/css/syntax.css";
+@import "fira-sans/index.css";
+@import "fira-code/index.css";
+@import "merriweather/index.css";
+@import "base.css";
+@import "syntax.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+@layer components {
+  .theme-switch {
+    @apply bg-gray-100 dark:bg-gray-800;
+    @apply text-gray-500 dark:text-gray-300;
+    --diameter: 1.5em;
+    --spacing: 2px;
+    inline-size: calc(var(--diameter) * 2 + var(--spacing) * 2); /* width */
+    block-size: calc(var(--diameter) + var(--spacing) * 2); /* height */
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-radius: 100vh;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    transition:
+      background-color 0.4s ease-in-out,
+      color 0.4s ease-in-out;
+
+    & svg {
+      height: var(--diameter); /* width */
+      width: var(--diameter); /* height */
+      padding: 1px;
+    }
+  }
+
+  .theme-switch::before {
+    @apply bg-accent-400;
+    --offset: calc(100% - var(--diameter) - var(--spacing) * 2);
+    content: '';
+    position: absolute;
+    inset-inline-start: var(--spacing); /* left */
+    inset-block-start: var(--spacing); /* top */
+    border-radius: 100vh;
+    inline-size: var(--diameter); /* width */
+    block-size: var(--diameter); /* height */
+    transition: inset-inline-start 0.4s ease-in-out; /* left */
+  }
+
+  .theme-switch[aria-pressed='true']::before {
+    inset-inline-start: calc(var(--spacing) + var(--offset)); /* left */
+  }
+
+  .no-js .theme-switch {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion) {
+    .theme-switch {
+      transition-duration: 0.01s;
+    }
+
+    .theme-switch::before {
+      transition-duration: 0.01s;
+    }
+  }
+}
