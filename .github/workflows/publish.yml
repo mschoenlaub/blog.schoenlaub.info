@@ -47,6 +47,8 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ env.BASE_URL }}"
+      - name: Inject critical CI
+        run: npx grunt critical
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
