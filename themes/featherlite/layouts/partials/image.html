@@ -1,4 +1,5 @@
-{{ $alt := .Title | default .Text }}
+{{- $alt := .Title | default .Text -}}
+{{- $loading := cond (.LazyLoad | default false) "lazy" "eager" -}}
 {{ if in .Destination "http" }}
   <figure>
     <img alt="{{ $alt }}" title="{{ $alt }}" src="{{ .Destination }}" loading="lazy" />
@@ -29,7 +30,7 @@
                 type="{{ $img.MediaType }}"
                 srcset="{{ (($img.Resize (printf "%0.0fx" $size)) | fingerprint).Permalink }}" />
         {{- end -}}
-        <img decoding="async" loading="lazy" src="{{ $img.Permalink }}" alt="{{ .PlainText }}" title="{{ .Title }}" />
+        <img decoding="async" loading="{{- $loading -}}" src="{{ $img.Permalink }}" alt="{{ .PlainText }}" title="{{ .Title }}" />
       </picture>
     </a>
     <figcaption class="text-sm italic">
