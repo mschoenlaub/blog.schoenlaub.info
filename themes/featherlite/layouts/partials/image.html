@@ -1,36 +1,47 @@
 {{- $alt := .Title | default .Text -}}
 {{- $loading := cond (.LazyLoad | default false) "lazy" "eager" -}}
-{{ if in .Destination "http" }}
+{{- $supportedSizes := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) }}
+{{ if hasPrefix .Destination "http" }}
   <figure>
-    <img alt="{{ $alt }}" title="{{ $alt }}" src="{{ .Destination }}" loading="lazy" />
+    <img alt="{{ $alt }}" title="{{ $alt }}" src="{{ .URL }}" decoding="async" loading="{{- $loading -}}" />
+    <figcaption class="text-sm italic">
+      {{ $alt | $.Page.RenderString }}
+    </figcaption>
   </figure>
-  <figcaption class="text-sm italic">
-    {{ $alt | $.Page.RenderString }}
-  </figcaption>
 {{ else }}
-  {{ $img := .Page.Resources.GetMatch .Destination }}
+  {{ $img := .Page.Resources.Get .Destination }}
   {{ $alt := $alt | $.Page.RenderString }}
-  <figure>
+  <figure class="w-full">
     <a href="{{ $img.Permalink }}">
-      {{- $img := .Page.Resources.GetMatch .Destination -}}
-      {{- if and (not $img) .Page.File -}}
-      {{ $path := path.Join .Page.File.Dir .Destination }}
-      {{- $img = resources.Get $path -}}
-      {{- end -}}
       <picture>
-        {{- range $i, $size := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) -}}
         <source
-                media="(max-width: {{ $size }}px)"
-                type="image/webp"
-                srcset="{{ (($img.Resize (printf "%0.0fx webp" $size)) | fingerprint).Permalink }}" />
-        {{- end -}}
-        {{- range $i, $size := (.Page.Params.screen_sizes | default .Page.Site.Data.default.screen_sizes ) -}}
+          type="image/webp"
+          srcset="
+            {{- range $i, $size := $supportedSizes -}}
+              {{- with $resized := (($img.Resize (printf "%0.0fx webp" $size )) | fingerprint) -}}
+                {{- if $i }},{{- end -}}{{- printf "%s %dw" .RelPermalink .Width -}}
+              {{- end -}}
+            {{- end -}}
+          "
+          sizes="80vw" />
         <source
-                media="(max-width: {{ $size }}px)"
-                type="{{ $img.MediaType }}"
-                srcset="{{ (($img.Resize (printf "%0.0fx" $size)) | fingerprint).Permalink }}" />
-        {{- end -}}
-        <img decoding="async" loading="{{- $loading -}}" src="{{ $img.Permalink }}" alt="{{ .PlainText }}" title="{{ .Title }}" />
+          type="{{ $img.MediaType }}"
+          srcset="
+            {{- range $i, $size := $supportedSizes -}}
+              {{- with $resized := (($img.Resize (printf "%0.0fx" $size )) | fingerprint) -}}
+                {{- if $i }},{{- end -}}{{- printf "%s %dw" .RelPermalink .Width -}}
+              {{- end -}}
+            {{- end -}}
+          "
+          sizes="80vw" />
+        <img
+          decoding="async"
+          loading="{{- $loading -}}"
+          width="{{ $img.Width }}"
+          height="{{ $img.Height }}"
+          src="{{ $img.Permalink }}"
+          alt="{{ .PlainText }}"
+          title="{{ .Title }}" />
       </picture>
     </a>
     <figcaption class="text-sm italic">
