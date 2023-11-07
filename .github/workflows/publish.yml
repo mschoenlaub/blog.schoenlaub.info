@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: ".nvmrc"
           cache: "npm"
       - name: Install node dependencies
         run: npm ci
