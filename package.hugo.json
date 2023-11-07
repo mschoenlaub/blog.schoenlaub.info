@@ -2,9 +2,11 @@
   "name": "mschoenlaub.github.io",
   "version": "0.1.0",
   "devDependencies": {
-    "critical": "^6.0.4",
     "grunt-critical": "^3.0.1",
     "grunt": "^1.6.1"
+  },
+  "overrides": {
+    "puppeteer": "^19.4.0"
   },
   "browserslist": {
     "production": [

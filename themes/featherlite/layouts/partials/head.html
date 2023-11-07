@@ -43,8 +43,7 @@ document.documentElement.className = document.documentElement.className.replace(
 {{ if hugo.IsProduction }}
 {{ $style = $style | fingerprint | resources.PostProcess }}
 {{ end }}
-<link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" /></noscript>
+<link rel="stylesheet" href="{{ $style.RelPermalink }}" />
 {{ template "partials/favicons.html" . }}
 
 {{ with .Site.Params.indieweb }}

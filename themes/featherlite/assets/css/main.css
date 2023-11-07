@@ -24,9 +24,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: space-around;
-    transition:
-      background-color 0.4s ease-in-out,
-      color 0.4s ease-in-out;
 
     & svg {
       height: var(--diameter); /* width */
