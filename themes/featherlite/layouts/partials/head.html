@@ -17,11 +17,10 @@
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
 </script>
 {{ if .IsHome }}
-{{ $scrollJs := resources.Get "js/scroll.js" | js.Build  | minify | fingerprint }}
-<script src="{{ $scrollJs.RelPermalink }}" integrity="{{ $scrollJs.Data.Integrity }}" defer></script>
-{{ with $inlineCss :=  resources.Get "critical/index.css" }}
-<!-- prettier-ignore -->
-<style>{{ ($inlineCss | resources.PostCSS ).Content | safeCSS }}</style>
+{{ with resources.Get "js/scroll.js" | js.Build | minify }}
+<script>
+    {{- .Content | safeJS -}}
+</script>
 {{ end }}
 {{ end }}
 {{ $switcher := resources.Get "js/switcher.js" | js.Build  | minify | fingerprint }}
