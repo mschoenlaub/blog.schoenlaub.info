@@ -17,14 +17,14 @@
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
 </script>
 {{ if .IsHome }}
-{{ with resources.Get "js/scroll.js" | js.Build | minify }}
+{{ $scrollJs := resources.Get "js/scroll.js" | js.Build (dict "target" "es2015") | minify | fingerprint }}
+<script src="{{ $scrollJs.RelPermalink }}" integrity="{{ $scrollJs.Data.Integrity }}" defer></script>
+{{ end }}
+{{ with resources.Get "js/switcher.js" | js.Build (dict "target" "es2015") | minify }}
 <script>
-    {{- .Content | safeJS -}}
+{{ .Content | safeJS }}
 </script>
 {{ end }}
-{{ end }}
-{{ $switcher := resources.Get "js/switcher.js" | js.Build  | minify | fingerprint }}
-<script src="{{ $switcher.RelPermalink }}" integrity="{{ $switcher.Data.Integrity }}" defer></script>
 <link rel="canonical" href="{{ .Permalink }}"/>
 <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}"/>
 

@@ -32,6 +32,11 @@
     }
   }
 
+  .theme-switch:disabled {
+    @apply opacity-50;
+    cursor: not-allowed;
+  }
+
   .theme-switch::before {
     @apply bg-accent-400;
     --offset: calc(100% - var(--diameter) - var(--spacing) * 2);

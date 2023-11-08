@@ -8,7 +8,16 @@ function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark })
   return "light";
 }
 
-const testMedia = (mq) => matchMedia(`${mq}, not all and ${mq}`).matches;
+function testMedia(mq) {
+  return matchMedia(`${mq}, not all and ${mq}`).matches;
+}
+
+function enableThemeSwitcher(currentThemeSetting) {
+  const button = document.querySelector("#theme-switch");
+  button.setAttribute("aria-pressed", (currentThemeSetting === "dark").toString());
+  button.disabled = false;
+  button.addEventListener("click", (ev) => (currentThemeSetting = switchTheme(ev.currentTarget, currentThemeSetting)));
+}
 
 function switchTheme(currentTarget, currentThemeSetting) {
   const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
@@ -26,9 +35,11 @@ if (testMedia("(prefers-color-scheme: dark)")) {
   const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
   let currentThemeSetting = calculateSettingAsThemeString({ localStorageTheme, systemSettingDark });
   document.documentElement.classList.add(currentThemeSetting);
-  const button = document.querySelector(".theme-switch");
-  button.setAttribute("aria-pressed", (currentThemeSetting === "dark").toString());
-  button.addEventListener("click", (ev) => (currentThemeSetting = switchTheme(ev.currentTarget, currentThemeSetting)));
+  if (document.readyState === "loading") {
+    addEventListener("DOMContentLoaded", () => enableThemeSwitcher(currentThemeSetting));
+  } else {
+    enableThemeSwitcher(currentThemeSetting);
+  }
 }
 
 export { switchTheme };
