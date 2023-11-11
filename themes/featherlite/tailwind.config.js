@@ -22,7 +22,7 @@ module.exports = {
           css: {
             "--tw-prose-quote-borders": theme("colors.accent.400"),
             "--tw-prose-invert-quote-borders": theme("colors.accent.400"),
-            "--tw-prose-links": theme("colors.accent.400"),
+            "--tw-prose-links": theme("colors.accent.600"),
             "--tw-prose-invert-links": theme("colors.accent.400"),
             a: {
               "&:hover": {
