@@ -12,7 +12,6 @@
   {{ $img := .Page.Resources.Get .Destination }}
   {{ $alt := $alt | $.Page.RenderString }}
   <figure class="w-full">
-    <a href="{{ $img.Permalink }}">
       <picture>
         <source
           type="image/webp"
@@ -43,7 +42,6 @@
           alt="{{ .PlainText }}"
           title="{{ .Title }}" />
       </picture>
-    </a>
     <figcaption class="text-sm italic">
       {{ $alt | $.Page.RenderString }}
     </figcaption>
