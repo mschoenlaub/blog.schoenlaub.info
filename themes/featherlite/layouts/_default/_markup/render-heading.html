@@ -1,1 +1,1 @@
-<h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }} <a href="#{{ .Anchor | safeURL }}">{{ partial "icon" (dict "name" "link") }}</a></h{{ .Level }}>
+<h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }} <a aria-label="{{ .PlainText}}" href="#{{ .Anchor | safeURL }}">{{ partial "icon" (dict "name" "link") }}</a></h{{ .Level }}>
