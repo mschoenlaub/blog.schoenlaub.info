@@ -33,14 +33,7 @@
             {{- end -}}
           "
           sizes="80vw" />
-          $avifPath:= replace .Destination (path.Ext .Destination) ".avif"
-          <source
-                  media="(max-width: {{ $size }}px)"
-                  type="image/avif"
-                  srcset="{{ (($avifPath) | fingerprint).Permalink }}" />
-          {{- end -}}
-
-          <img
+        <img
           decoding="async"
           loading="{{- $loading -}}"
           width="{{ $img.Width }}"
