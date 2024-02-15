@@ -9,26 +9,22 @@
 "@id": "{{ .Permalink }}#article",
 {{ with or (.Params.categories) (.Params.tags) }}"articleSection": [ {{ delimit (apply (apply . "chomp" ".") "jsonify" ".") ", " }} ],{{ end }}
 "wordCount": "{{ .Plain | countwords }}",
-{{ with .Param "authors" }}"author": [
-{{ range $i, $author := . }}{{ if $i }}, {{ end }}
+{{ with $author := .Param "author" }}"author": [
 {{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
 {
 "@id": "{{ $authorPage.Permalink }}#person",
 "url": "{{ $authorPage.Permalink }}",
 "name": "{{ $authorPage.Param "name" }}"
 }
-{{ end }}
 {{ end }}
 ],{{ end }}
-{{ with .Params.authors }}"creator": [
-{{ range $i, $author := . }}{{ if $i }}, {{ end }}
+{{ with $author := .Params.author }}"creator": [
 {{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
 {
 "@id": "{{ $authorPage.Permalink }}#person",
 "url": "{{ $authorPage.Permalink }}",
 "name": "{{ $authorPage.Param "name" }}"
 }
-{{ end }}
 {{ end }}
 ],{{ end }}
 "copyrightYear": "{{ $dateModifiedYear | safeHTML }}",

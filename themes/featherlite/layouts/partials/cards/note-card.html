@@ -1,0 +1,23 @@
+{{- $publishDate := .PublishDate.Format "January 2, 2006" -}}
+{{- $authorPage := ($.Site.GetPage "page" (printf "authors/%s" (.Param "author") )) -}}
+{{- $authorImage := $authorPage.Resources.Get "avatar.jpg" | fingerprint -}}
+<li
+  class="bg-white dark:bg-gray-700 shadow-sm hover:shadow-lg transition-shadow border border-gray-200 rounded-lg mb-5 h-entry p-4 flex gap-4">
+  <img class="u-photo reply-author-avatar" src="{{ $authorImage.RelPermalink }}" loading="lazy" decoding="async" alt="{{ $authorPage.Param "name" }}" />
+  <div>
+    <aside class="flex justify-between text-xs mb-5">
+      <a rel="author" class="p-author h-card" href="{{ $authorPage.Permalink }}">{{ $authorPage.Param "name" }}</a>
+      <a class="u-url" href="{{ .RelPermalink }}"><time class="dt-published" datetime="{{ .PublishDate }}">{{ $publishDate }}</time></a>
+    </aside>
+    <div class="text-xs">
+      {{ if  (eq .Type "like-of") }}
+        {{ partial "icon" (dict "name" "heart") }}
+      <span class="mr-4">Liked </span><a href="{{ $.Param "target" }}" class="u-like-of">{{ $.Param "target" }}</a>
+      {{ else }}
+      <div class="p-summary">
+        {{ .Summary }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</li>

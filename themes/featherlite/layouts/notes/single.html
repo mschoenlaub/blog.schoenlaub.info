@@ -1,0 +1,17 @@
+{{ define "main" }}
+<article
+        class="h-entry px-6 mx-auto mb-16 prose sm:max-md:prose-sm lg:prose-lg justify-self-center sm:px-4 md:px-0 dark:prose-invert">
+    <hgroup>
+        {{- partial "post-meta/top.html" . -}}
+    </hgroup>
+    {{/* h-entry */}}
+    <div class="e-content">
+        {{ .Content }}
+    </div>
+    <hr/>
+    {{ partial "post-meta.html" . }}
+    <hr/>
+    {{ partial "webmentions.html" . }}
+    {{ partial "comments.html" . }}
+</article>
+{{ end }}

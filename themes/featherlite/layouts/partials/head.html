@@ -1,10 +1,8 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-{{ with .Param "authors" }}
-{{ range $i, $author := . }}
+{{ with $author := .Param "author" }}
 {{ with $authorPage := ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
 <meta name="author" content="{{ .Param "name" }}">
-{{ end }}
 {{ end }}
 {{ end }}
 {{ partial "schemas/semweb.html" . }}

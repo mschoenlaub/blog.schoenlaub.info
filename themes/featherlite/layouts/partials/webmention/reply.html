@@ -1,0 +1,17 @@
+<li class="reply p-comment h-cite flex gap-1" xmlns="http://www.w3.org/1999/html">
+    <a class="u-author flex-shrink-0" href="{{ .author.url }}" rel="nofollow ugc" title="{{ .author.name }} replied: {{ .url }}">
+    <img class="u-photo reply-author-avatar" src="{{ .author.photo }}" loading="lazy" decoding="async" alt="mschoenlaub">
+    </a>
+    <blockquote>
+        <div class="p-content reply-body">{{ .content.text }}</div>
+        <footer class="text-xs ms-4">
+            <span><a class="u-author p-author prose-a" href="{{ .author.url }}">{{ .author.name }}</a></span>
+            {{ with (index . "wm-source") | default .url }}
+            <span><a class="u-url" href="{{ . | urls.Parse }}">on {{ (. | urls.Parse).Hostname }}</a></span>
+            {{ end }}
+            {{ with .published | default (index . "wm-received") }}
+            <time class="dt-published opacity-60" datetime="{{ . | time.Format "2006-01-02T15:04:05Z07:00" }}">{{ . | time.Format ":date_medium" }}, {{ . | time.Format ":time_long" }}</time>
+            {{ end }}
+        </footer>
+    </blockquote>
+</li>

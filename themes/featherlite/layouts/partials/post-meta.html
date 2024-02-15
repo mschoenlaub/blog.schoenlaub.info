@@ -1,50 +1,53 @@
 {{ $publishDate := .PublishDate.Format "January 2, 2006" }}
 {{ $lastmod := .Lastmod.Format "January 2, 2006" }}
-{{ if (eq (.Section) "notes") }}
-<aside class="m-1 text-gray-500 text-sm">
-    <span class="font-bold">
-      {{ partial "icon" (dict "name" "calendar") }}
-    </span>
-    {{/* h-entry */}}
-    <time class="dt-published" datetime="{{ .PublishDate }}">
-        <a class="u-url dark:text-white" href="{{ .Permalink }}">{{ $publishDate }}</a>
-    </time>
-</aside>
-{{ else }}
-<aside class="pb-2 text-sm">
-    <span class="font-bold">
-      {{ partial "icon" (dict "name" "calendar") }}
-      Posted:
-    </span>
-    {{/* h-entry */}}
-    <time class="dt-published" datetime="{{ .PublishDate }}">
-        <a class="u-url" href="{{ .Permalink }}">{{ $publishDate }}</a>
-    </time>
-</aside>
-{{ if and (ne $lastmod $publishDate) (gt .Lastmod .PublishDate) }}
-<aside class="pb-2 text-sm">
-      <span class="font-bold">
-        {{ partial "icon" (dict "name" "refresh-ccw") }}
-        Last Updated:
-      </span>
-    <time class="dt-updated" datetime="{{ .Lastmod }}">
-        <a class="u-url" href="{{ .Permalink }}">{{ $lastmod }}</a>
-    </time>
-</aside>
-{{ end }}
-{{ with .Params.tags }}
-<aside class="pb-2 text-sm">
+<footer>
+    {{ with .Params.tags }}
+    <div>
   <span class="font-bold">
     {{ partial "icon" (dict "name" "tag") }}
     Tags:
   </span>
-    {{ range $idx, $tag := . }}
-    {{- if ne $idx 0 }}{{ end }}
-    <!-- prettier-ignore -->
-    <a href="{{ " tags/" | relURL }}{{ $tag | urlize }}"
-    class="rounded-md border border-accent-400 hover:bg-gray-100 w-1/2 p-1 items-center justify-center
-    no-underline text-gray-500">{{ $tag }}</a>
-    {{- end }}
-</aside>
-{{ end }}
-{{ end }}
+        {{ range $idx, $tag := . }}
+        {{- if ne $idx 0 }}{{ end }}
+        <!-- prettier-ignore -->
+        <a href="{{ "tags/" | relURL }}{{ $tag | urlize }}" class="tag">{{ $tag }}</a>
+        {{- end }}
+    </div>
+    {{ end }}
+    {{ with .Params.syndication }}
+    <div class="mt-4">
+        <span>{{ partial "icon" (dict "name" "share-2") }}Also available on:</span>
+        <ul class="list-none mt-0 pb-2 inline not-prose">
+            {{ range $silo, $url := . }}
+            <li class="inline"><a href="{{ $url }}" class="u-syndication capitalize" rel="syndication" aria-label="Interact on {{ title $silo }}">
+                {{ partial "icon" (dict "name" $silo "size" "[1.5em]") }} <span>{{ $silo }}</span>
+            </a></li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ end }}
+    {{ with $author := .Params.author }}
+    {{ with ($.Site.GetPage "page" (printf "authors/%s" $author)) }}
+    <div class="mt-4">
+          <span class="font-bold">
+            {{ partial "icon" (dict "name" "user") }}
+            Posted By:
+          </span>
+        <a rel="author" class="p-author h-card" href="{{ .Permalink }}">{{- $author -}}</a>
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ with .Params.categories }}
+    <div class="mt-4">
+          <span class="font-bold">
+            {{ partial "icon" (dict "name" "folder") }}
+            Categories:
+          </span>
+        {{ range $idx, $category := . }}
+        {{- if ne $idx 0 }}{{ end }}
+        {{/* h-entry */}}
+        <a href="{{ "categories/" | relURL }}{{ $category | urlize }}" class="p-category">{{ $category }}</a>
+        {{- end }}
+    </div>
+    {{ end }}
+</footer>

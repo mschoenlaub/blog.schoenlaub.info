@@ -3,7 +3,6 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 const typography = require("@tailwindcss/typography");
 
 module.exports = {
-  darkMode: "class",
   content: ["./hugo_stats.json"],
   plugins: [typography],
   theme: {
@@ -18,16 +17,47 @@ module.exports = {
         mono: ["Fira Code", ...fontFamily.mono],
       },
       typography: (theme) => ({
+        invert: {
+          css: {
+            code: {
+              backgroundColor: theme("colors.gray.800"),
+            },
+          },
+        },
         DEFAULT: {
           css: {
             "--tw-prose-quote-borders": theme("colors.accent.400"),
             "--tw-prose-invert-quote-borders": theme("colors.accent.400"),
             "--tw-prose-links": theme("colors.accent.600"),
             "--tw-prose-invert-links": theme("colors.accent.400"),
-            a: {
-              "&:hover": {
-                color: theme("colors.accent.800"),
+            "h2,h3,h4,h5,h6": {
+              a: {
+                color: "var(--tw-prose-links)",
+                textDecoration: "none",
+                "&:hover": {
+                  color: theme("colors.accent.800"),
+                },
               },
+            },
+            a: {
+              color: "var(--tw-prose-body)",
+              textDecorationColor: theme("colors.accent.400"),
+              textDecorationThickness: "2px",
+              textUnderlineOffset: "2px",
+              "&:hover": {
+                color: "var(--tw-prose-links)",
+              },
+            },
+            code: {
+              backgroundColor: theme("colors.gray.200"),
+              borderRadius: theme("borderRadius.md"),
+              paddingInline: theme("spacing.1"),
+            },
+            "code::before": {
+              content: "normal",
+            },
+            "code::after": {
+              content: "normal",
             },
           },
         },
@@ -51,7 +81,7 @@ module.exports = {
         black: colors.black,
         white: colors.white,
         gray: colors.gray,
-        accent: colors.pink,
+        accent: colors.green,
       },
       animation: {
         blink: "blink 1s linear infinite",

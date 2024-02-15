@@ -49,13 +49,11 @@ markup:
     anchorLineNos: true
     codeFences: true
     guessSyntax: true
-    lineAnchors: ""
     lineNoStart: 1
     lineNos: true
     lineNumbersInTable: true
     noClasses: false
     noHl: false
-    style: dracula
     tabWidth: 2
 
 params:

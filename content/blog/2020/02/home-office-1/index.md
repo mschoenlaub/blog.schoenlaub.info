@@ -9,8 +9,7 @@ tags:
   - corona
   - homeoffice
   - teleworking
-authors:
-  - mschoenlaub
+author: mschoenlaub
 series:
   - Home Office
 lastmod: 2020-03-21

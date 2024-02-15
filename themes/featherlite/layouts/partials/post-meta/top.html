@@ -1,0 +1,11 @@
+{{- $publishDate := .PublishDate.Format "January 2, 2006" -}}
+{{- $lastmod := .Lastmod.Format "January 2, 2006" -}}
+<header class="opacity-70 hidden text-sm sm:flex">
+    <span>{{ partial "icon" (dict "name" "calendar") }} <time class="dt-published" datetime="{{ .PublishDate }}">{{ $publishDate }}</time></span>
+    {{- if and (ne $lastmod $publishDate) (gt .Lastmod .PublishDate) -}}
+    <span class="ml-1 mr-1" aria-hidden="true">|</span>
+    <span>{{ partial "icon" (dict "name" "refresh-ccw") }}<time class="dt-updated" datetime="{{ .Lastmod }}">{{ $lastmod }}</time></span>
+    {{- end -}}
+    <span class="hidden md:inline ml-1 mr-1" aria-hidden="true">|</span>
+    <span class="hidden md:inline">{{ .ReadingTime }} minute read</span></span>
+</header>
